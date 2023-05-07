@@ -1,0 +1,24 @@
+version: '3.10'
+
+services:
+  web:
+    build: ./treeTrader
+    command: gunicorn treeTrader.wsgi:application --bind 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    env_file:
+      - ./treeTrader/treeTrader/.env
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=tree_menu
+
+volumes:
+  postgres_data:
