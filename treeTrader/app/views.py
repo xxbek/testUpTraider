@@ -9,6 +9,7 @@ from .models import Dashboard, TreePoint, TreePointRelation
 
 
 def index(request):
+    """Main page with dashboards"""
     dashboard_list = Dashboard.objects.order_by("id").all()
     paginator = Paginator(dashboard_list, 4)
     page_number = request.GET.get('page')
@@ -22,6 +23,7 @@ def index(request):
 
 
 def register_request(request):
+    """Register page for new users"""
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
@@ -36,6 +38,7 @@ def register_request(request):
 
 
 def login_request(request):
+    """Login page"""
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -54,7 +57,9 @@ def login_request(request):
     return render(request=request, template_name="login.html", context={"login_form": form})
 
 
+@login_required()
 def logout_request(request):
+    """Logout"""
     logout(request)
     messages.info(request, "You have successfully logged out.")
     return redirect("index")
@@ -62,6 +67,7 @@ def logout_request(request):
 
 @login_required
 def new_dashboard(request):
+    """Create new dashboard"""
     if request.method == 'POST':
         form = DashboardForm(data=request.POST)
         if form.is_valid():
@@ -80,6 +86,7 @@ def new_dashboard(request):
 
 @login_required()
 def dashboard_view(request, dashboard_id):
+    """Look inside dashboard"""
     dashboard = get_object_or_404(Dashboard, id=dashboard_id)
     points = TreePoint.objects.filter(dashboard_id=dashboard_id)
     root_points = [point for point in points if point.parent_id is None]
@@ -92,11 +99,15 @@ def dashboard_view(request, dashboard_id):
 
 
 @login_required
-def dashboard_delete(request):
-    pass
+def dashboard_delete(request, dashboard_id):
+    """Delete dashboard with all tags"""
+    Dashboard.objects.filter(id=dashboard_id).delete()
+    messages.info(request, f"Dashboard {dashboard_id} was deleted.")
+    return redirect('index')
 
 
 def _create_relation(parent_id, child_id):
+    """Create parent <-> child relation in TreePointRelation table"""
     child = get_object_or_404(TreePoint, id=child_id)
     relation = TreePointRelation(point_id=parent_id, child_id=child)
     relation.save()
@@ -104,6 +115,7 @@ def _create_relation(parent_id, child_id):
 
 @login_required
 def point_create(request, dashboard_id):
+    """Create node in dashboard"""
     if request.method == 'POST':
         point_form = PointForm(data=request.POST)
         if point_form.is_valid():
@@ -122,10 +134,6 @@ def point_create(request, dashboard_id):
     point_form = PointForm(dashboard_id=dashboard_id)
     return render(request=request, template_name="point_new.html", context={"point_form": point_form, "dashboard_id": dashboard_id})
 
-
-@login_required
-def point_delete(request, dashboard_id):
-    pass
 
 
 
