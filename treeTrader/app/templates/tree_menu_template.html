@@ -1,0 +1,12 @@
+<li> {{point.name}}
+    {% for relation in relations %}
+        {%if point == relation.point_id %}
+            <ul>
+                  {%with point=relation.child_id relations=relations template_name="tree_menu_template.html" %}
+                       {%include template_name%}
+                  {%endwith%}
+             </ul>
+        {%endif%}
+    {%endfor%}
+
+</li>

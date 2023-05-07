@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<h1>Dashboard #{{ dashboard.id }}</h1>
+<a href="{% url 'point_create' dashboard.id %}">
+    <button class="btn btn-primary" type="submit">Create point</button>
+</a>
+
+<div class="card mb-3 mt-1 shadow-sm">
+
+    <!-- Отображение текста поста -->
+    <div class="card-body">
+      <p class="card-text">
+        <ul>
+            {%for point in root_points %}
+                {%include "tree_menu_template.html" with relations=relations %}
+            {%endfor%}
+        </ul>
+      </p>
+    </div>
+
+    <h4>
+    </h4>
+
+    <h4>Menu number  items: {{ points.count }}</h4>
+
+</div>
+
+{% endblock %}
