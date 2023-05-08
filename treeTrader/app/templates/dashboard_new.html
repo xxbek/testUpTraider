@@ -11,7 +11,7 @@
   <h1>Create Dashboard</h1>
   <form method="POST">
     {% csrf_token %}
-    {{ dashboard_form.as_p }}
+    {{ dashboard_form | crispy }}
     <button class="btn btn-primary" type="submit">Create</button>
   </form>
 </div>

@@ -2,6 +2,11 @@
 {% block content %}
 
 
+
+<a href="{% url 'index' %}">
+    <button class="btn btn-primary" type="submit">Back</button>
+</a>
+
 <h1>Dashboard #{{ dashboard.id }}</h1>
 <a href="{% url 'point_create' dashboard.id %}">
     <button class="btn btn-primary" type="submit">Create point</button>
