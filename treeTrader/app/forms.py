@@ -31,12 +31,17 @@ class PointForm(forms.ModelForm):
         model = TreePoint
         fields = ['name', 'parent_id']
 
-    def __init__(self, dashboard_id=None, **kwargs):
+    def __init__(self, dashboard_id=None, parent_id=None, **kwargs):
         super(PointForm, self).__init__(**kwargs)
         if dashboard_id:
             self.fields['parent_id'] = forms.ModelChoiceField(
                 queryset=TreePoint.objects.filter(dashboard_id=dashboard_id), required=False
             )
+        if parent_id:
+            self.fields['parent_id'] = forms.ModelChoiceField(
+                queryset=TreePoint.objects.filter(id=parent_id), required=False
+            )
+
 
 
 

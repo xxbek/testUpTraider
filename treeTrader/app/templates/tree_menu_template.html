@@ -1,4 +1,4 @@
-<li> {{point.name}}
+<li> <a href="?point_id={{point.id}}">{{point.name}}</a>
     {% for relation in relations %}
         {%if point == relation.point_id %}
             <ul>

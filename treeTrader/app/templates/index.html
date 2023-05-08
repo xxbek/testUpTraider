@@ -11,7 +11,7 @@
         {% for dashboard in page %}
             <div class="card mb-3 mt-1 shadow-sm">
 
-            <!-- Отображение текста поста -->
+            <!-- Filed for Text -->
             <div class="card-body">
               <a href="{% url 'dashboard_view' dashboard.id%}"><p class="card-text">ID: {{dashboard.id}}</p></a>
               <p class="card-text">Author: {{dashboard.user_id.username}}</p>

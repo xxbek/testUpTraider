@@ -11,6 +11,7 @@ urlpatterns = [
     path("<int:dashboard_id>/delete", views.dashboard_delete, name="dashboard_delete"),
     path("<int:dashboard_id>/dashboard", views.dashboard_view, name="dashboard_view"),
 
-    path("<int:dashboard_id>/point_create", views.point_create, name="point_create")
+    path("<int:dashboard_id>/point_create", views.point_create, name="point_create"),
+    path("<int:point_id>/point_delete", views.point_delete, name="point_delete"),
 ]
 

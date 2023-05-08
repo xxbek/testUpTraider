@@ -131,9 +131,26 @@ def point_create(request, dashboard_id):
         else:
             messages.error(request, "Invalid point form.")
 
-    point_form = PointForm(dashboard_id=dashboard_id)
-    return render(request=request, template_name="point_new.html", context={"point_form": point_form, "dashboard_id": dashboard_id})
+    parent_point = request.GET.get('point_id')
+    print(parent_point)
+    point_form = PointForm(parent_id=parent_point, dashboard_id=dashboard_id)
+    return render(
+        request=request,
+        template_name="point_new.html",
+        context={"point_form": point_form, "dashboard_id": dashboard_id}
+    )
 
 
+@login_required()
+def point_delete(request, point_id):
+    """Request for point delete"""
+    children = TreePointRelation.objects.filter(point_id=point_id)
+    children_id = [child.child_id.id for child in children]
+    TreePoint.objects.filter(id__in=children_id).delete()
+    point = TreePoint.objects.filter(id=point_id).first()
+    dashboard = point.dashboard_id.id
+    point.delete()
+    messages.info(request, f"TreePoint {point_id} and its children was deleted.")
+    return redirect('dashboard_view', dashboard_id=dashboard)
 
 

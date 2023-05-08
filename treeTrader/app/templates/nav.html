@@ -1,5 +1,5 @@
 <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-    <a class="navbar-brand" href="{% url 'index' %}"><span style="color:red">Tree</span>menu</a>
+    <a class="navbar-brand fs-1 " href="{% url 'index' %}"><span style="color:red">Tree</span>menu</a>
     <nav>
         {% if user.is_authenticated %}
             User: <a href="">{{ user.username }}</a> |

@@ -11,7 +11,7 @@
 <div class="container py-5">
   <form method="POST">
     {% csrf_token %}
-    {{ point_form.as_p }}
+    {{ point_form | crispy }}
     <button class="btn btn-primary" type="submit">Create</button>
   </form>
 </div>

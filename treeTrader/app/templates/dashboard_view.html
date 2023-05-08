@@ -9,7 +9,7 @@
 
 <div class="card mb-3 mt-1 shadow-sm">
 
-    <!-- Отображение текста поста -->
+    <!-- Menu Text -->
     <div class="card-body">
       <p class="card-text">
         <ul>
@@ -23,7 +23,30 @@
     <h4>
     </h4>
 
-    <h4>Menu number  items: {{ points.count }}</h4>
+    <h4 class="d-flex justify-content-center">Menu number  items: {{ points.count }}</h4>
+
+<div class="card mb-3 mt-1 shadow-sm">
+    <div class="card-body">
+
+        {% if request.GET.point_id %}
+
+            {% for point in points %}
+                {% if point.id|floatformat:"0" == request.GET.point_id %}
+                    <p class="card-text">Point: {{ point.id }}</p>
+                    <p class="card-text">Point name: {{ point.name }}</p>
+                    <p class="card-text">Point author: {{ point.user_id.username }}</p>
+                    <a href="{% url 'point_create' dashboard.id %}?point_id={{point.id}}">
+                        <button class="btn btn-success" type="submit">Create child</button>
+                    </a>
+                    <a href="{% url 'point_delete' point.id %}">
+                        <button class="btn btn-danger" type="submit">Delete this point</button>
+                    </a>
+                {%endif%}
+            {% endfor %}
+          {%endif%}
+
+    </div>
+</div>
 
 </div>
 
